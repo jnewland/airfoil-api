@@ -17,6 +17,7 @@
   "dependencies": {
     "express": "^4.12.4",
     "applescript": "^1.0.0",
-    "body-parser": "^1.12.4"
+    "body-parser": "^1.12.4",
+    "mdns": "2.2.9"
   }
 }

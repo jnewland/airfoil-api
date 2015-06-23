@@ -3,6 +3,7 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var applescript = require('applescript');
+var mdns = require('mdns');
 
 app.get('/speakers', function(req, res){
   var script = "" +
@@ -97,3 +98,6 @@ app.post('/speakers/:id/volume', bodyParser.text({type: '*/*'}), function (req, 
 });
 
 app.listen(process.env.PORT || 8080);
+
+var ad = mdns.createAdvertisement(mdns.tcp('airfoil-api'), process.env.PORT || 8080);
+ad.start();
