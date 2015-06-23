@@ -1,4 +1,4 @@
-# AirFoil Api
+# AirFoil API
 
 Wrap AirFoil's Applescript interface with a JSON API.
 
