@@ -50,6 +50,11 @@ app.post('/speakers/:id/connect', function (req, res) {
   var script = "tell application \"Airfoil\"\n";
   script += "set myspeaker to first speaker whose id is \"" + req.params.id + "\"\n";
   script += "connect to myspeaker\n";
+  script += "delay 0.5\n";
+  script += "connect to myspeaker\n";
+  script += "delay 0.5\n";
+  script += "connect to myspeaker\n";
+  script += "delay 0.5\n";
   script += "connected of myspeaker\n";
   script += "end tell";
   applescript.execString(script, function(error, result) {
