@@ -8,7 +8,33 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.get('/', function(req, res){
-  res.json({ message: 'hooray! welcome to our api!' });
+  var script = "" +
+  "tell application \"Airfoil\"\n" +
+  "set myspeakers to get every speaker\n" +
+  "set allSpeakers to {}\n" +
+  "repeat with currentSpeaker in myspeakers\n" +
+  "  set thisSpeaker to {}\n" +
+  "  set conn to connected of currentSpeaker\n" +
+  "  copy conn to the end of thisSpeaker\n" +
+  "  set volum to volume of currentSpeaker\n" +
+  "  copy volum to the end of thisSpeaker\n" +
+  "  set nm to name of currentSpeaker\n" +
+  "  copy nm to the end of thisSpeaker\n" +
+  "  set spkId to id of currentSpeaker\n" +
+  "  copy spkId to the end of thisSpeaker\n" +
+  "  set AppleScript's text item delimiters to \",\"\n" +
+  "  set speakerText to thisSpeaker as text\n" +
+  "  set AppleScript's text item delimiters to \"\"\n" +
+  "  copy speakerText to the end of allSpeakers\n" +
+  "end repeat\n" +
+  "set AppleScript's text item delimiters to \"\n\"\n" +
+  "set speakerText to allSpeakers as text\n" +
+  "set AppleScript's text item delimiters to \"\"\n" +
+  "get speakerText\n" +
+  "end tell";
+  applescript.execString(script, function(err, rtn) {
+    res.json({ rtn: rtn, err: err });
+  });
 });
 
-app.listen(3000);
+app.listen(process.env.PORT || 8080);
