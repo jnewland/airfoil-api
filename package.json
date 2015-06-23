@@ -9,13 +9,6 @@
     "type": "git",
     "url": "https://github.com/jnewland/airfoil-api"
   },
-  "keywords": [
-    "logitech",
-    "harmony",
-    "hub",
-    "remote",
-    "api"
-  ],
   "author": "Jesse Newland <jesse@jnewland.com>",
   "license": "MIT",
   "bugs": {
