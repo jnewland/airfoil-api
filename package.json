@@ -1,0 +1,29 @@
+{
+  "name": "airfoil-api",
+  "version": "0.0.1",
+  "description": "airfoil-api",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jnewland/airfoil-api"
+  },
+  "keywords": [
+    "logitech",
+    "harmony",
+    "hub",
+    "remote",
+    "api"
+  ],
+  "author": "Jesse Newland <jesse@jnewland.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jnewland/airfoil-api/issues"
+  },
+  "dependencies": {
+    "express": "^4.12.4",
+    "applescript": "^1.0.0",
+    "body-parser": "^1.12.4"
+  }
+}
