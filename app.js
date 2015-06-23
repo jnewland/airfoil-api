@@ -27,14 +27,26 @@ app.get('/', function(req, res){
   "  set AppleScript's text item delimiters to \"\"\n" +
   "  copy speakerText to the end of allSpeakers\n" +
   "end repeat\n" +
-  "set AppleScript's text item delimiters to \"\n\"\n" +
+  "set AppleScript's text item delimiters to \"|\"\n" +
   "set speakerText to allSpeakers as text\n" +
   "set AppleScript's text item delimiters to \"\"\n" +
   "get speakerText\n" +
   "end tell";
+
   applescript.execString(script, function(err, rtn) {
-    res.json({ rtn: rtn, err: err });
+    if (err) {
+      res.json({error: err});
+    } else {
+      var speakers = [];
+      var speakerText = rtn.split("|");
+      speakerText.map(function(s) {
+        var t = s.split(",");
+        speakers.push({ connected: t[0], volume: t[1], name: t[2], id: t[3] });
+      });
+      res.json(speakers);
+    }
   });
+
 });
 
 app.listen(process.env.PORT || 8080);
