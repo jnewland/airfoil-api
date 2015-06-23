@@ -38,7 +38,7 @@ app.get('/speakers', function(req, res){
       var speakerText = result.split("|");
       speakerText.map(function(s) {
         var t = s.split(",");
-        speakers.push({ connected: t[0], volume: t[1], name: t[2], id: t[3] });
+        speakers.push({ connected: t[0], volume: parseFloat(t[1]), name: t[2], id: t[3] });
       });
       res.json(speakers);
     }
@@ -86,7 +86,7 @@ app.post('/speakers/:id/volume', bodyParser.text({type: '*/*'}), function (req, 
     if (error) {
       res.json({error: error});
     } else {
-      res.json({id: req.params.id, volume: result})
+      res.json({id: req.params.id, volume: parseFloat(result)})
     }
   });
 });
