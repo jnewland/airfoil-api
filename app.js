@@ -4,10 +4,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var applescript = require('applescript');
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-app.get('/', function(req, res){
+app.get('/speakers', function(req, res){
   var script = "" +
   "tell application \"Airfoil\"\n" +
   "set myspeakers to get every speaker\n" +
@@ -33,12 +30,12 @@ app.get('/', function(req, res){
   "get speakerText\n" +
   "end tell";
 
-  applescript.execString(script, function(err, rtn) {
-    if (err) {
-      res.json({error: err});
+  applescript.execString(script, function(error, result) {
+    if (error) {
+      res.json({error: error});
     } else {
       var speakers = [];
-      var speakerText = rtn.split("|");
+      var speakerText = result.split("|");
       speakerText.map(function(s) {
         var t = s.split(",");
         speakers.push({ connected: t[0], volume: t[1], name: t[2], id: t[3] });
@@ -47,6 +44,51 @@ app.get('/', function(req, res){
     }
   });
 
+});
+
+app.post('/speakers/:id/connect', function (req, res) {
+  var script = "tell application \"Airfoil\"\n";
+  script += "set myspeaker to first speaker whose id is \"" + req.params.id + "\"\n";
+  script += "connect to myspeaker\n";
+  script += "connected of myspeaker\n";
+  script += "end tell";
+  applescript.execString(script, function(error, result) {
+    if (error) {
+      res.json({error: error});
+    } else {
+      res.json({id: req.params.id, connected: result})
+    }
+  });
+});
+
+app.post('/speakers/:id/disconnect', function (req, res) {
+  var script = "tell application \"Airfoil\"\n";
+  script += "set myspeaker to first speaker whose id is \"" + req.params.id + "\"\n";
+  script += "disconnect from myspeaker\n";
+  script += "connected of myspeaker\n";
+  script += "end tell";
+  applescript.execString(script, function(error, result) {
+    if (error) {
+      res.json({error: error});
+    } else {
+      res.json({id: req.params.id, connected: result})
+    }
+  });
+});
+
+app.post('/speakers/:id/volume', bodyParser.text({type: '*/*'}), function (req, res) {
+  var script = "tell application \"Airfoil\"\n";
+  script += "set myspeaker to first speaker whose id is \"" + req.params.id + "\"\n";
+  script += "set (volume of myspeaker) to " + parseFloat(req.body) + "\n";
+  script += "volume of myspeaker\n";
+  script += "end tell";
+  applescript.execString(script, function(error, result) {
+    if (error) {
+      res.json({error: error});
+    } else {
+      res.json({id: req.params.id, volume: result})
+    }
+  });
 });
 
 app.listen(process.env.PORT || 8080);
