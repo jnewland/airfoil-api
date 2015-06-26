@@ -1,6 +1,6 @@
-# AirFoil API
+# Airfoil API
 
-Wrap AirFoil's Applescript interface with a JSON API.
+Wrap Airfoil's Applescript interface with a JSON API.
 
 ### Setup
 
