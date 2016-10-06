@@ -4,6 +4,8 @@ Wrap Airfoil's Applescript interface with a JSON API.
 
 ### Setup
 
+This program requires the `mdns` module, which may require that you install a system package on your computer. Please see the [mdns installation instructions](https://github.com/agnat/node_mdns#installation) first. Then:
+
     npm install
     npm run start
 
