@@ -2,12 +2,6 @@
 
 Wrap Airfoil's Applescript interface with a JSON API.
 
-### Status
-
-[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
-
-I'm not actively using this project anymore, but it may work for you!
-
 ### Setup
 
 Then:
