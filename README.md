@@ -10,7 +10,7 @@ I'm not actively using this project anymore, but it may work for you!
 
 ### Setup
 
-This program requires the `mdns` module, which may require that you install a system package on your computer. Please see the [mdns installation instructions](https://github.com/agnat/node_mdns#installation) first. Then:
+Then:
 
     npm install
     npm run start
