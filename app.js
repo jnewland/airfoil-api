@@ -5,8 +5,9 @@ var app = express();
 var bodyParser = require('body-parser');
 var applescript = require('applescript');
 
-var logFormat = "'[:date[iso]] - :remote-addr - :method :url :status :response-time ms - :res[content-length]b'"
-app.use(morgan(logFormat))
+var logFormat = "'[:date[iso]] - :remote-addr - :method :url :status :response-time ms - :res[content-length]b'";
+app.use(morgan(logFormat));
+app.use(bodyParser.text({type: '*/*'}));
 
 app.get('/speakers', function(req, res){
   var script = "" +
@@ -85,7 +86,7 @@ app.post('/speakers/:id/disconnect', function (req, res) {
   });
 });
 
-app.post('/speakers/:id/volume', bodyParser.text({type: '*/*'}), function (req, res) {
+app.post('/speakers/:id/volume', function (req, res) {
   var script = "tell application \"Airfoil\"\n";
   script += "set myspeaker to first speaker whose id is \"" + req.params.id + "\"\n";
   script += "set (volume of myspeaker) to " + parseFloat(req.body) + "\n";
