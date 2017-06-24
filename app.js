@@ -1,8 +1,12 @@
 var util = require('util');
 var express = require('express');
+var morgan = require('morgan');
 var app = express();
 var bodyParser = require('body-parser');
 var applescript = require('applescript');
+
+var logFormat = "'[:date[iso]] - :remote-addr - :method :url :status :response-time ms - :res[content-length]b'"
+app.use(morgan(logFormat))
 
 app.get('/speakers', function(req, res){
   var script = "" +
