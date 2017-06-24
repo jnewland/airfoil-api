@@ -1,0 +1,8 @@
+#!/bin/sh
+
+cd "$(dirname "$0")/.."
+
+echo "Uninstalling airfoil-api..."
+forever stop airfoil-api > /dev/null 2>&1
+launchctl unload ~/Library/LaunchAgents/org.airfoil-api.plist
+rm ~/Library/LaunchAgents/org.airfoil-api.plist

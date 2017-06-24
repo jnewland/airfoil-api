@@ -1,0 +1,17 @@
+#!/bin/sh
+
+set -e
+
+echo "Installing airfoil-api..."
+
+APP_PATH=`pwd`
+USER_NAME=`whoami`
+
+mkdir -p ~/Library/LaunchAgents
+
+cp config/org.airfoil-api.plist ~/Library/LaunchAgents/org.airfoil-api.plist
+
+sed -i '' -e "s#%USER%#$USER_NAME#g" ~/Library/LaunchAgents/org.airfoil-api.plist
+sed -i '' -e "s#%PATH%#$APP_PATH#g" ~/Library/LaunchAgents/org.airfoil-api.plist
+
+launchctl load -w -F ~/Library/LaunchAgents/org.airfoil-api.plist

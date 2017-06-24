@@ -2,13 +2,6 @@
 
 Wrap Airfoil's Applescript interface with a JSON API.
 
-### Setup
-
-Then:
-
-    npm install
-    npm run start
-
 ### Usage
 
     $ curl http://localhost:8080/speakers
@@ -21,3 +14,32 @@ Then:
     {"id":"F0D1A90B2769@loft-bathroom","volume":0.75}
     $ curl -X POST --data '0.76' http://localhost:8080/speakers/F0D1A90B2769@loft-bathroom/volume
     {"id":"F0D1A90B2769@loft-bathroom","volume":0.759999990463}
+
+  ## Setup
+
+      script/bootstrap
+
+  ## Running It
+
+      script/server
+
+  airfoil-api will run on port `8080` by default. Use the `PORT` environment
+  variable to use your own port.
+
+  ### Forever
+
+  airfoil-api has support for [Forever](https://github.com/foreverjs/forever). It uses `launchd` on OS X to kick it off so that it starts on boot.
+
+  ### Development
+
+  You can simply run it by calling `script/server`. This will run it in development mode with logging to standard out.
+
+  ### Install as Service on OS X
+
+      script/install
+
+  ## Contributions
+
+  * fork
+  * create a feature branch
+  * open a Pull Request
