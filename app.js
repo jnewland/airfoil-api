@@ -93,7 +93,7 @@ app.post('/speakers/:id/volume', bodyParser.text({type: '*/*'}), function (req, 
   script += "end tell";
   applescript.execString(script, function(error, result) {
     if (error) {
-      res.json({error: error});
+      res.json({error: error, body: req.body});
     } else {
       res.json({id: req.params.id, volume: parseFloat(result)})
     }
