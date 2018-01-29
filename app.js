@@ -80,4 +80,60 @@ app.post('/speakers/:id/volume', function (req, res) {
   });
 });
 
+app.get('/now_playing', function(req, res){
+  fs.readFile("now_playing.scpt", "utf8", function(err, data) {
+    if (err) throw err;
+    applescript.execString(data, function(error, result) {
+      if (error) {
+        res.json({error: error});
+      } else {
+        if (result == "") {
+          res.json({playing: false});
+        } else {
+          var info = result.split("|");
+          res.json({
+            playing: true,
+            artist: info[0],
+            album: info[1],
+            track: info[2]
+          });
+        }
+      }
+    });
+  });
+});
+
+app.post('/next', function (req, res) {
+  var script = "tell application \"Airfoil Satellite\" to next";
+  applescript.execString(script, function(error, result) {
+    if (error) {
+      res.json({error: error});
+    } else {
+      res.json({success: true});
+    }
+  });
+});
+
+app.post('/previous', function (req, res) {
+  var script = "tell application \"Airfoil Satellite\" to previous";
+  applescript.execString(script, function(error, result) {
+    if (error) {
+      res.json({error: error});
+    } else {
+      res.json({success: true});
+    }
+  });
+});
+
+app.post('/playpause', function (req, res) {
+  var script = "tell application \"Airfoil Satellite\" to playpause";
+  applescript.execString(script, function(error, result) {
+    if (error) {
+      res.json({error: error});
+    } else {
+      res.json({success: true});
+    }
+  });
+});
+
 app.listen(process.env.PORT || 8080);
