@@ -11,6 +11,85 @@ app.use(morgan(logFormat));
 app.use(bodyParser.text({type: '*/*'}));
 
 
+app.get('/applications', function(req, res){
+  fs.readFile("applications.scpt", "utf8", function(err, data) {
+	  
+	var devices = {};
+	devices.active=null;
+	devices.available=[];
+	
+	var device_id = null;
+	  
+    if (err) throw err;
+    
+     var script = "tell application \"Airfoil\"\n";
+     script += "set aSource to current audio source\n";
+	 script += "get name of aSource\n"
+     script += "end tell";
+    
+     
+     promise = new Promise(function(resolve,reject){
+ 
+     applescript.execString(script, function(error, result) {
+	    
+	    if(error){
+		    //do nothing here - we just won't list the current object	         
+	         reject(error);
+	    }else{
+		     
+		    
+		     resolve(result);
+	    }
+
+    });
+    
+    });
+    
+    
+    
+	promise.then(function(resp) { 
+		
+		devices.active = resp;
+
+	    applescript.execString(data, function(error, result) {
+	      if (error) {
+		      
+	        res.json({error: error});
+	        
+	      } else {
+	       
+	        devices.available = result.split(",");
+	        
+	 
+	        
+	        res.json(devices);
+	      }
+	    });
+	    
+	    
+	    })
+		.catch(console.error);
+    
+    
+  });
+});
+
+
+app.post('/application/:name', function (req, res) {
+  var script = "tell application \"Airfoil\"\n";
+  script += "set aSource to first application source whose name is \""+req.params.name+"\"\n";
+  script += "set current audio source to aSource\n"
+  script += "end tell";
+  applescript.execString(script, function(error, result) {
+    if (error) {
+      res.json({error: error});
+    } else {
+      res.json({active: req.params.name, status: result})
+    }
+  });
+});
+
+
 app.get('/speakers', function(req, res){
   fs.readFile("speakers.scpt", "utf8", function(err, data) {
     if (err) throw err;
