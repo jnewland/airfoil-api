@@ -76,10 +76,19 @@ app.get('/applications', function(req, res){
 
 
 app.post('/application/:name', function (req, res) {
-  var script = "tell application \"Airfoil\"\n";
-  script += "set aSource to first application source whose name is \""+req.params.name+"\"\n";
-  script += "set current audio source to aSource\n"
-  script += "end tell";
+var script = "tell application \"Airfoil\"\n";
+script += "	set srcString to \""+req.params.name+"\"\n";
+script += "	try\n";
+script += "		set aSource to (first system source whose name is srcString)\n";
+script += "	on error errMsg\n";
+script += "		try\n";
+script += "			set aSource to (first application source whose name is srcString)\n";
+script += "		on error errMsg2\n";
+script += "			set aSource to (first device source whose name is srcString)\n";
+script += "	end try\n";
+script += " end try\n";
+script += "   set current audio source to aSource\n";
+script += "end tell";
   applescript.execString(script, function(error, result) {
     if (error) {
       res.json({error: error});
