@@ -80,26 +80,21 @@ app.post('/speakers/:id/volume', function (req, res) {
   });
 });
 
-app.get('/now_playing', function(req, res){
-  fs.readFile("now_playing.scpt", "utf8", function(err, data) {
-    if (err) throw err;
-    applescript.execString(data, function(error, result) {
-      if (error) {
-        res.json({error: error});
-      } else {
-        if (result == "") {
-          res.json({playing: false});
-        } else {
-          var info = result.split("|");
-          res.json({
-            playing: true,
-            artist: info[0],
-            album: info[1],
-            track: info[2]
-          });
-        }
-      }
-    });
+app.get('/now_playing', function(req, res) {
+  var script = "tell application \"Airfoil Satellite\"\n";
+  script += "get artist & \"|\" & album & \"|\" & track title\n";
+  script += "end tell";
+  applescript.execString(script, function(error, result) {
+    if (error) {
+      res.json({error: error});
+    } else {
+      var info = result.split("|");
+      res.json({
+        artist: info[0],
+        album: info[1],
+        track: info[2]
+      });
+    }
   });
 });
 
