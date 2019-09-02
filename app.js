@@ -80,6 +80,33 @@ app.post('/speakers/:id/volume', function (req, res) {
   });
 });
 
+app.get('/audio_source', function (req, res) {
+  var script = "tell application \"Airfoil\"\n";
+  script += "get name of current audio source\n"
+  script += "end tell";
+  applescript.execString(script, function(error, result) {
+    if (error) {
+      res.json({error: error});
+    } else {
+      res.json({audio_source: result})
+    }
+  });
+});
+
+app.post('/device_source', function (req, res) {
+  var script = "tell application \"Airfoil\"\n";
+  script += "set current audio source to first device source whose name is \"" + req.body + "\"\n";
+  script += "get name of current audio source\n"
+  script += "end tell";
+  applescript.execString(script, function(error, result) {
+    if (error) {
+      res.json({error: error});
+    } else {
+      res.json({audio_source: result})
+    }
+  });
+});
+
 app.get('/now_playing', function(req, res){
   fs.readFile("now_playing.scpt", "utf8", function(err, data) {
     if (err) throw err;
